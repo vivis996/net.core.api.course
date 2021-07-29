@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using net.core.api.Models;
+using net.core.api.Services.CharacterService;
 
 namespace net.core.api.Controllers
 {
@@ -9,31 +10,31 @@ namespace net.core.api.Controllers
   [Route("[controller]")]
   public class CharacterController : ControllerBase
   {
-    public static List<Character> characters = new List<Character>
+    private readonly ICharacterService _characterService;
+
+    public CharacterController(ICharacterService characterService)
     {
-        new Character(),
-        new Character { Id = 1, Name = "Yoda", },
-    };
+      this._characterService = characterService;
+    }
 
     [HttpGet]
     [Route("GetAll")]
     public ActionResult<List<Character>> GetAll()
     {
-      return Ok(characters);
+      return Ok(this._characterService.GetAll());
     }
 
     [HttpGet]
     [Route("{id}")]
     public ActionResult<Character> GetSingle(int id)
     {
-      return Ok(characters.FirstOrDefault(c => c.Id == id));
+      return Ok(this._characterService.GetById(id));
     }
 
     [HttpPost]
     public ActionResult<Character> AddCharacter(Character newCharacter)
     {
-        characters.Add(newCharacter);
-      return Ok(characters);
+      return Ok(this._characterService.AddNewObject(newCharacter));
     }
   }
 }
