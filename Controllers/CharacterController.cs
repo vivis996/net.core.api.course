@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using net.core.api.Models;
 using net.core.api.Services.CharacterService;
@@ -19,22 +19,22 @@ namespace net.core.api.Controllers
 
     [HttpGet]
     [Route("GetAll")]
-    public ActionResult<List<Character>> GetAll()
+    public async Task<ActionResult<List<Character>>> GetAll()
     {
-      return Ok(this._characterService.GetAll());
+      return Ok(await this._characterService.GetAll());
     }
 
     [HttpGet]
     [Route("{id}")]
-    public ActionResult<Character> GetSingle(int id)
+    public async Task<ActionResult<Character>> GetSingle(int id)
     {
-      return Ok(this._characterService.GetById(id));
+      return Ok(await this._characterService.GetById(id));
     }
 
     [HttpPost]
-    public ActionResult<Character> AddCharacter(Character newCharacter)
+    public async Task<ActionResult<Character>> AddCharacter(Character newCharacter)
     {
-      return Ok(this._characterService.AddNewObject(newCharacter));
+      return Ok(await this._characterService.AddNewObject(newCharacter));
     }
   }
 }
