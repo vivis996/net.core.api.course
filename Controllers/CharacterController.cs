@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using net.core.api.Dtos.Character;
 using net.core.api.Models;
 using net.core.api.Services.CharacterService;
 
@@ -19,20 +20,20 @@ namespace net.core.api.Controllers
 
     [HttpGet]
     [Route("GetAll")]
-    public async Task<ActionResult<ServiceResponse<List<Character>>>> GetAll()
+    public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> GetAll()
     {
       return Ok(await this._characterService.GetAll());
     }
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<ActionResult<ServiceResponse<Character>>> GetSingle(int id)
+    public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle(int id)
     {
       return Ok(await this._characterService.GetById(id));
     }
 
     [HttpPost]
-    public async Task<ActionResult<ServiceResponse<Character>>> AddCharacter(Character newCharacter)
+    public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
     {
       return Ok(await this._characterService.AddNewObject(newCharacter));
     }

@@ -34,6 +34,7 @@ namespace net.core.api
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "net.core.api", Version = "v1" });
       });
 
+      services.AddAutoMapper(typeof(Startup));
       services.AddScoped<ICharacterService, CharacterService>();
     }
 
