@@ -19,20 +19,20 @@ namespace net.core.api.Controllers
 
     [HttpGet]
     [Route("GetAll")]
-    public async Task<ActionResult<List<Character>>> GetAll()
+    public async Task<ActionResult<ServiceResponse<List<Character>>>> GetAll()
     {
       return Ok(await this._characterService.GetAll());
     }
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<ActionResult<Character>> GetSingle(int id)
+    public async Task<ActionResult<ServiceResponse<Character>>> GetSingle(int id)
     {
       return Ok(await this._characterService.GetById(id));
     }
 
     [HttpPost]
-    public async Task<ActionResult<Character>> AddCharacter(Character newCharacter)
+    public async Task<ActionResult<ServiceResponse<Character>>> AddCharacter(Character newCharacter)
     {
       return Ok(await this._characterService.AddNewObject(newCharacter));
     }

@@ -6,8 +6,8 @@ namespace net.core.api.Services.CharacterService
 {
   public interface ICharacterService
   {
-    Task<List<Character>> GetAll();
-    Task<Character> GetById(int id);
-    Task<List<Character>> AddNewObject(Character newCharacter);
+    Task<ServiceResponse<List<Character>>> GetAll();
+    Task<ServiceResponse<Character>> GetById(int id);
+    Task<ServiceResponse<List<Character>>> AddNewObject(Character newCharacter);
   }
 }
