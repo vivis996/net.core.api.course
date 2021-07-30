@@ -37,5 +37,27 @@ namespace net.core.api.Controllers
     {
       return Ok(await this._characterService.AddNewObject(newCharacter));
     }
+
+    [HttpPut]
+    public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> UpdateCharacter(UpdateCharacterDto updateCharacter)
+    {
+      var response = await this._characterService.UpdateObject(updateCharacter);
+      if (!response.Success)
+      {
+        return NotFound(response);
+      }
+      return Ok(response);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> DeleteCharacter(int id)
+    {
+      var response = await this._characterService.DeleteObject(id);
+      if (!response.Success)
+      {
+        return NotFound(response);
+      }
+      return Ok(response);
+    }
   }
 }
