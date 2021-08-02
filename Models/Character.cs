@@ -9,6 +9,7 @@ namespace net.core.api.Models
     public int Defense { get; set; }
     public int Intelligence { get; set; }
     public RpgClass Class { get; set; }
+    public User User { get; set; }
 
     public Character()
     {
