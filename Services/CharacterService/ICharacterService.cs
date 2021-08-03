@@ -7,7 +7,7 @@ namespace net.core.api.Services.CharacterService
 {
   public interface ICharacterService
   {
-    Task<ServiceResponse<List<GetCharacterDto>>> GetAll();
+    Task<ServiceResponse<List<GetCharacterDto>>> GetAll(int userId);
     Task<ServiceResponse<GetCharacterDto>> GetById(int id);
     Task<ServiceResponse<List<GetCharacterDto>>> AddNewObject(AddCharacterDto newCharacter);
     Task<ServiceResponse<GetCharacterDto>> UpdateObject(UpdateCharacterDto updateCharacter);

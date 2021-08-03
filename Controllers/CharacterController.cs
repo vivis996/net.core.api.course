@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +22,12 @@ namespace net.core.api.Controllers
       this._characterService = characterService;
     }
 
-    [AllowAnonymous]
     [HttpGet]
     [Route("GetAll")]
     public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> GetAll()
     {
-      return Ok(await this._characterService.GetAll());
+      var id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+      return Ok(await this._characterService.GetAll(id));
     }
 
     [HttpGet]
