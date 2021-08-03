@@ -26,8 +26,7 @@ namespace net.core.api.Controllers
     [Route("GetAll")]
     public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> GetAll()
     {
-      var id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-      return Ok(await this._characterService.GetAll(id));
+      return Ok(await this._characterService.GetAll());
     }
 
     [HttpGet]
