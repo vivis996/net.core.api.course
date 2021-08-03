@@ -20,6 +20,7 @@ namespace net.core.api.Controllers
       this._characterService = characterService;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     [Route("GetAll")]
     public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> GetAll()
