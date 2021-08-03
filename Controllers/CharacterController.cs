@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using net.core.api.Dtos.Character;
 using net.core.api.Models;
@@ -7,6 +8,7 @@ using net.core.api.Services.CharacterService;
 
 namespace net.core.api.Controllers
 {
+  [Authorize]
   [ApiController]
   [Route("[controller]")]
   public class CharacterController : ControllerBase

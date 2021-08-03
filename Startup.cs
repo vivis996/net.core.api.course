@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using net.core.api.Data;
 using net.core.api.Services.CharacterService;
+using Microsoft.IdentityModel.Tokens;
 
 namespace net.core.api
 {
@@ -39,6 +41,17 @@ namespace net.core.api
       services.AddAutoMapper(typeof(Startup));
       services.AddScoped<ICharacterService, CharacterService>();
       services.AddScoped<IAuthRepository, AuthRepository>();
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+          .AddJwtBearer(options =>
+          {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+              ValidateIssuerSigningKey = true,
+              IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+              ValidateIssuer = false,
+              ValidateAudience = false,
+            };
+          });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +67,8 @@ namespace net.core.api
       app.UseHttpsRedirection();
 
       app.UseRouting();
+
+      app.UseAuthentication();
 
       app.UseAuthorization();
 
