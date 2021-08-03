@@ -1,6 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using net.core.api.Models;
 
 namespace net.core.api.Data
@@ -8,8 +13,10 @@ namespace net.core.api.Data
   public class AuthRepository : IAuthRepository
   {
     private readonly DataContext _context;
-    public AuthRepository(DataContext context)
+    private readonly IConfiguration _configuration;
+    public AuthRepository(DataContext context, IConfiguration configuration)
     {
+      this._configuration = configuration;
       this._context = context;
     }
 
@@ -28,7 +35,7 @@ namespace net.core.api.Data
           throw new Exception("Wrong password");
         }
 
-        response.Data = user.Id.ToString();
+        response.Data = this.CreateToken(user);
       }
       catch (Exception ex)
       {
@@ -99,6 +106,31 @@ namespace net.core.api.Data
         }
         return true;
       }
+    }
+
+    private string CreateToken(User user)
+    {
+      var claims = new List<Claim>
+      {
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        new Claim(ClaimTypes.Name, user.Username),
+      };
+
+      var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(this._configuration.GetSection("AppSettings:Token").Value));
+
+      var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+      var tokenDescriptor = new SecurityTokenDescriptor
+      {
+        Subject = new ClaimsIdentity(claims),
+        Expires = DateTime.Now.AddDays(1),
+        SigningCredentials = creds,
+      };
+
+      var tokenHandler = new JwtSecurityTokenHandler();
+
+      var token = tokenHandler.CreateToken(tokenDescriptor);
+      return tokenHandler.WriteToken(token);
     }
   }
 }
