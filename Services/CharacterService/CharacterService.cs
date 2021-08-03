@@ -87,7 +87,9 @@ namespace net.core.api.Services.CharacterService
       var serviceResponse = new ServiceResponse<GetCharacterDto>();
       try
       {
-        var character = await this._context.Characters.FirstOrDefaultAsync(c => c.Id == updateCharacter.Id && c.User.Id == this.GetUserId());
+        var character = await this._context.Characters
+                    .Include(c => c.User)
+                    .FirstOrDefaultAsync(c => c.Id == updateCharacter.Id && c.User.Id == this.GetUserId());
         if (character == null)
         {
           throw new NullReferenceException("Character not found.");
