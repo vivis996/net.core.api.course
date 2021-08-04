@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.AspNetCore.Http;
 using net.core.api.Services.WeaponService;
+using net.core.api.Services.FightService;
 
 namespace net.core.api
 {
@@ -46,6 +47,7 @@ namespace net.core.api
       services.AddScoped<ICharacterService, CharacterService>();
       services.AddScoped<IAuthRepository, AuthRepository>();
       services.AddScoped<IWeaponService, WeaponService>();
+      services.AddScoped<IFightService, FightService>();
       
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
           .AddJwtBearer(options =>
