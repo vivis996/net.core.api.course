@@ -61,5 +61,16 @@ namespace net.core.api.Controllers
       }
       return Ok(response);
     }
+
+    [HttpPost("skill")]
+    public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacterSkill(AddCharacterStkillDto newCharacterSkill)
+    {
+      var response = await this._characterService.AddCharacterSkill(newCharacterSkill);
+      if (!response.Success)
+      {
+        return BadRequest(response);
+      }
+      return Ok(response);
+    }
   }
 }

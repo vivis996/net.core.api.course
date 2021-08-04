@@ -12,5 +12,6 @@ namespace net.core.api.Services.CharacterService
     Task<ServiceResponse<List<GetCharacterDto>>> AddNewObject(AddCharacterDto newCharacter);
     Task<ServiceResponse<GetCharacterDto>> UpdateObject(UpdateCharacterDto updateCharacter);
     Task<ServiceResponse<List<GetCharacterDto>>> DeleteObject(int id);
+    Task<ServiceResponse<GetCharacterDto>> AddCharacterSkill(AddCharacterStkillDto newCharacterSkill);
   }
 }
