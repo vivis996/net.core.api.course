@@ -1,3 +1,4 @@
+using net.core.api.Dtos.Weapon;
 using net.core.api.Models;
 
 namespace net.core.api.Dtos.Character
@@ -11,5 +12,6 @@ namespace net.core.api.Dtos.Character
     public int Defense { get; set; }
     public int Intelligence { get; set; }
     public RpgClass Class { get; set; }
+    public GetWeaponDto Weapon { get; set; }
   }
 }
