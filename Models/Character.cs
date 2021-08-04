@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace net.core.api.Models
 {
   public class Character
@@ -11,6 +13,7 @@ namespace net.core.api.Models
     public RpgClass Class { get; set; }
     public User User { get; set; }
     public Weapon Weapon { get; set; }
+    public List<Skill> Skills { get; set; }
 
     public Character()
     {
