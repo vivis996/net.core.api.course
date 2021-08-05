@@ -15,5 +15,6 @@
       "password": "Ab12345678",
       "database": "dotnet-course-api"
     }
-  ]
+  ],
+  "jupyter.jupyterServerType": "local"
 }
