@@ -22,5 +22,11 @@ namespace net.core.api.Controllers
     {
       return Ok(await this._fightService.WeaponAttack(request));
     }
+
+    [HttpPost("Skill")]
+    public async Task<ActionResult<ServiceResponse<AttackResultDto>>> SkillAttack(SkillAttackDto request)
+    {
+      return Ok(await this._fightService.SkillAttack(request));
+    }
   }
 }
