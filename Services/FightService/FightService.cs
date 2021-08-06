@@ -186,6 +186,8 @@ namespace net.core.api.Services.FightService
           c.HitPoints = new Random().Next(1000, 1300);
         });
 
+        this._context.Characters.UpdateRange(characters);
+
         await this._context.SaveChangesAsync();
       }
       catch (Exception ex)
