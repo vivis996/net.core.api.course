@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using net.core.api.Dtos.Fight;
@@ -33,6 +34,12 @@ namespace net.core.api.Controllers
     public async Task<ActionResult<ServiceResponse<FightResultDto>>> Fight(FightRequestDto request)
     {
       return Ok(await this._fightService.Fight(request));
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<ServiceResponse<List<HighscoreDto>>>> GetHighscore()
+    {
+      return Ok(await this._fightService.GetHighscore());
     }
   }
 }

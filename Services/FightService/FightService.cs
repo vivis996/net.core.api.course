@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using net.core.api.Data;
 using net.core.api.Dtos.Fight;
@@ -11,8 +13,10 @@ namespace net.core.api.Services.FightService
   public class FightService : IFightService
   {
     private readonly DataContext _context;
-    public FightService(DataContext context)
+    private readonly IMapper _mapper;
+    public FightService(DataContext context, IMapper mapper)
     {
+      this._mapper = mapper;
       this._context = context;
     }
 
@@ -189,6 +193,21 @@ namespace net.core.api.Services.FightService
         response.Success = false;
         response.Message = ex.Message;
       }
+
+      return response;
+    }
+
+    public async Task<ServiceResponse<List<HighscoreDto>>> GetHighscore()
+    {
+      var characters = await this._context.Characters
+                          .Where(c => c.Victories > 0)
+                          .OrderByDescending(c => c.Victories)
+                          .ThenBy(c => c.Defeats)
+                          .ToListAsync();
+      var response = new ServiceResponse<List<HighscoreDto>>
+      {
+        Data = characters.Select(c => this._mapper.Map<HighscoreDto>(c)).ToList(),
+      };
 
       return response;
     }
