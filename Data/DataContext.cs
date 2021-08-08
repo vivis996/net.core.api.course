@@ -22,6 +22,9 @@ namespace net.core.api.Data
         new Skill { Id = 2, Name = "Dark Rays", Damage = 110, },
         new Skill { Id = 3, Name = "Push", Damage = 80, }
       );
+
+      modelBuilder.Entity<User>()
+          .Property(user => user.Role).HasDefaultValue("Player");
     }
   }
 }
