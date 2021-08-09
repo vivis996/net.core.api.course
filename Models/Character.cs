@@ -12,6 +12,7 @@ namespace net.core.api.Models
     public int Intelligence { get; set; }
     public RpgClass Class { get; set; }
     public User User { get; set; }
+    public int UserId { get; set; }
     public Weapon Weapon { get; set; }
     public List<Skill> Skills { get; set; }
     public int Fights { get; set; }
