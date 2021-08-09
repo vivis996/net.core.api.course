@@ -30,7 +30,7 @@ namespace net.core.api.Data
         {
           throw new Exception("User not found.");
         }
-        if (!this.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+        if (!Utility.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
         {
           throw new Exception("Wrong password");
         }
@@ -78,27 +78,6 @@ namespace net.core.api.Data
       return await this._context.Users.AnyAsync(x => x.Username.ToLower().Equals(username.ToLower()));
     }
 
-    private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-    {
-      using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
-      {
-        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        if (computedHash.Length != passwordHash.Length)
-        {
-          return false;
-        }
-
-        for (int i = 0; i < computedHash.Length; i++)
-        {
-          if (computedHash[i] != passwordHash[i])
-          {
-            return false;
-          }
-        }
-        return true;
-      }
-    }
-
     private string CreateToken(User user)
     {
       var claims = new List<Claim>
@@ -112,17 +91,16 @@ namespace net.core.api.Data
 
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-      var tokenDescriptor = new SecurityTokenDescriptor
-      {
-        Subject = new ClaimsIdentity(claims),
-        Expires = DateTime.Now.AddDays(1),
-        SigningCredentials = creds,
-      };
+      var token = new JwtSecurityToken
+      (
+        claims: claims,
+        expires: DateTime.Now.AddDays(1),
+        signingCredentials: creds
+      );
 
-      var tokenHandler = new JwtSecurityTokenHandler();
+      var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-      var token = tokenHandler.CreateToken(tokenDescriptor);
-      return tokenHandler.WriteToken(token);
+      return jwt;
     }
   }
 }
